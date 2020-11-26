@@ -23,11 +23,12 @@ busy = False
 event_list.putEvent(Event("ingoing", 0, LAM))
 #INIT#
 
-for n in range(10000):
-    logging.info("SystemInfo: current_time = {}, busy = {}".format(current_time, busy))
+for n in range(100):
+    logging.info("### NEXT EVENT ITERATION ###")
     logging.info("EventList: {}".format(event_list))
     current_event = event_list.getEvent()
     current_time = current_event.timestamp
+    logging.info("SystemInfo: current_time = {}, busy = {}".format(current_time, busy))
 
     if current_event.type is "ingoing":
         
@@ -39,16 +40,17 @@ for n in range(10000):
             last_outgoing_time = event_list.findLastOutgoingTime()
             event_list.putEvent(Event("serving", current_time, last_outgoing_time))
             
-        #serve ingoing and generate new event
         event_list.putEvent(Event("ingoing", current_time, LAM))
 
-    elif current_event.type is "serving":
+    elif current_event.type is "serving":       
         busy = True
         event_list.putEvent(Event("outgoing", current_time, MI))
 
     elif current_event.type is "outgoing":
         busy = False
 
+
+    logging.info("### ITERATION FINISHED ### \n\n")
 
 
 
