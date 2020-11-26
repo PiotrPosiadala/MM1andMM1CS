@@ -11,17 +11,44 @@ ro_list = config.ro
 lam_list = config.lam
 mi_list = config.mi
 
+LAM = lam_list[0]
+MI = mi_list[0]
 
+############################################################################################################################
+
+#INIT#
 event_list = EventList()
-current_event = Event("ingoing", 0, lam_list[0], mi_list[0])
-logging.info('Handling event started: timestamp={}, type={}'.format(current_event.timestamp, current_event.type))
 current_time = 0
+busy = False
+event_list.putEvent(Event("ingoing", 0, LAM))
+#INIT#
 
-
-while event_list:
-    logging.info('--While-- next iteration')
+for n in range(10000):
+    logging.info("SystemInfo: current_time = {}, busy = {}".format(current_time, busy))
+    logging.info("EventList: {}".format(event_list))
     current_event = event_list.getEvent()
-    logging.info('Handling event started: timestamp={}, type={}'.format(current_event.timestamp, current_event.type))
-    logging.info('event_list = {}'.format(event_list))
+    current_time = current_event.timestamp
+
+    if current_event.type is "ingoing":
+        
+        if not busy:
+            busy = True
+            event_list.putEvent(Event("outgoing", current_time, MI))
+
+        else:
+            last_outgoing_time = event_list.findLastOutgoingTime()
+            event_list.putEvent(Event("serving", current_time, last_outgoing_time))
+            
+        #serve ingoing and generate new event
+        event_list.putEvent(Event("ingoing", current_time, LAM))
+
+    elif current_event.type is "serving":
+        busy = True
+        event_list.putEvent(Event("outgoing", current_time, MI))
+
+    elif current_event.type is "outgoing":
+        busy = False
+
+
 
 
