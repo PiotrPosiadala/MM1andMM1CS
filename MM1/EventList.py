@@ -36,7 +36,8 @@ class EventList(list):
 
     def printListElements(self):
         for elemnt in self:
-            print('timestamp={}, type={}'.format(elemnt.timestamp, elemnt.type))
+            print(elemnt)
+            #print('timestamp={}, type={}'.format(elemnt.timestamp, elemnt.type))
 
 
 
