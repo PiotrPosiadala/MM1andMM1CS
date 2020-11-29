@@ -12,6 +12,7 @@ logging.info('main.py started')
 ro_list = config.ro
 lam_list = config.lam
 mi_list = config.mi
+triggers_to_serve = config.triggers_to_serve
 #CONFIG#
 
 #INIT#
@@ -26,7 +27,7 @@ event_list.putEvent(Event("ingoing", 0, 1/LAM, current_time, new_event_ID))
 new_event_ID += 1
 #INIT#
 
-while new_event_ID < 10000:
+while new_event_ID < triggers_to_serve:
     logging.info("### NEXT EVENT ITERATION ###")
     logging.info("EventList: {}".format(event_list))
     current_event = event_list.getEvent()
