@@ -21,7 +21,7 @@ class Event():
             self.event_ID = event_ID
             
         self.type = event_type
-        logging.info("--EVENT-- Event generated: current_time = {}, event = {}".format(current_time, self))
+        logging.debug("--EVENT-- Event generated: current_time = {}, event = {}".format(current_time, self))
 
     def __str__(self):
         return('[timestamp=' + str(self.timestamp) + '; type='+ str(self.type) + '; birth_timestamp='+ str(self.birth_timestamp) +  '; event_ID='+ str(self.event_ID) + ']')

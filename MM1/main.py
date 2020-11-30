@@ -7,14 +7,15 @@ from Event import Event
 from EventList import EventList
 
 #CONFIG#
-logging.basicConfig(filename='main.log', filemode='w', level=logging.DEBUG, format='%(asctime)s %(message)s', datefmt='%d/%m/%Y %H:%M:%S')
+logging.basicConfig(filename='main.log', filemode='w', level=logging.INFO, format='%(asctime)s %(message)s', datefmt='%d/%m/%Y %H:%M:%S')
 logging.info('main.py started')
 ro_list = config.ro
 lam_list = config.lam
 mi_list = config.mi
 triggers_to_serve = config.triggers_to_serve
-#CONFIG#
+#CONFIG#Ini
 
+#for n in range(1,10):
 #INIT#
 LAM = lam_list[2]
 MI = mi_list[2]
