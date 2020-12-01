@@ -15,8 +15,16 @@ class Event():
         elif event_type is "outgoing":
             self.timestamp = current_time + random.exponential(scale = time_param)
             self.birth_timestamp = birth_timestamp
+        
+        elif event_type is "outgoing_imaginary":
+            self.timestamp = current_time + random.exponential(scale = time_param)
+            self.birth_timestamp = birth_timestamp
 
         elif event_type is "serving":
+            self.timestamp = time_param
+            self.birth_timestamp = birth_timestamp
+        
+        elif event_type is "serving_imaginary":
             self.timestamp = time_param
             self.birth_timestamp = birth_timestamp
 

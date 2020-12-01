@@ -22,7 +22,7 @@ class EventList(list):
         return temp_event
 
     def findLastOutgoing(self):
-        event_index = self.index(next(event for event in reversed(self) if event.type is "outgoing"))
+        event_index = self.index(next(event for event in reversed(self) if event.type is "outgoing" or "outgoing_imaginary"))
         logging.debug("--EVENTLIST-- findLastOutgoing: {}".format(event_index))
         return event_index
 
@@ -34,6 +34,12 @@ class EventList(list):
     def updateAllServingEvents(self, new_timestamp):
         for event in self: 
              if event.type is "serving": event.timestamp = new_timestamp
+    
+    def areServingsOnList(self):
+        #return any(event.type == "serving" for event in self)
+        serving_on_list = any(event.type == "serving" for event in self)
+        logging.debug("--EVENTLIST-- areServingsOnList: {}".format(serving_on_list))
+        return serving_on_list
 
     def printListElements(self):
         for elemnt in self:

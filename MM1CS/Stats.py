@@ -40,12 +40,13 @@ class Stats():
         avg_delay = statistics.mean(temp_event_delays)
         logging.debug("--STATS-- plot_delay(): avg_delay = {}".format(avg_delay))
         print("--STATS-- plot_delay(): avg_delay = {}".format(avg_delay))
-        plt.plot([temp_event_IDs[1], temp_event_IDs[-1] ],[avg_delay, avg_delay],linewidth=0.9, color="lime", linestyle = "-.")
+        plt.plot([temp_event_IDs[1], temp_event_IDs[-1] ],[avg_delay, avg_delay],linewidth=1.5, color="limegreen")
 
-        theoretical_avg_delay = (1/(MI-LAM))
+        RHO = LAM/MI
+        theoretical_avg_delay = ( ((2-RHO) * RHO) / (LAM * (1-RHO) ))
         logging.debug("--STATS-- plot_delay(): theoretical_avg_delay = {}".format(theoretical_avg_delay))
         print("--STATS-- plot_delay(): theoretical_avg_delay = {}".format(theoretical_avg_delay))
-        plt.plot([temp_event_IDs[1], temp_event_IDs[-1] ],[theoretical_avg_delay, theoretical_avg_delay], linewidth=0.9, color="red", linestyle = "--")
+        plt.plot([temp_event_IDs[1], temp_event_IDs[-1] ],[theoretical_avg_delay, theoretical_avg_delay], linewidth=1.5, color="red", linestyle = "--")
 
         plt.title("Czas przejścia pakietu przez system dla \u03BB = {:1.1f}, \u03BC = {:1.3f}, \u03C1 = {}.".format(LAM, MI, LAM/MI))
         plt.ylabel("T - Czas przejścia przez system")

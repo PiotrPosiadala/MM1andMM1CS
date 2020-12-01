@@ -41,7 +41,7 @@ while new_event_ID < triggers_to_serve:
 
     current_event = event_list.getEvent()
     current_time = current_event.timestamp
-    stats.sys_empty_update(penultimate_event_time, current_time, busy)
+    #stats.sys_empty_update(penultimate_event_time, current_time, busy)
 
     logging.info("SystemInfo: current_time = {}, busy = {}, , penultimate_event_time = {}".format(current_time, busy, penultimate_event_time))
 
@@ -61,17 +61,29 @@ while new_event_ID < triggers_to_serve:
     elif current_event.type == "serving":       
         busy = True
         event_list.putEvent(Event("outgoing", current_time, 1/MI, current_event.birth_timestamp, current_event.event_ID))
+    
+    elif current_event.type == "serving_imaginary":       
+        busy = True
+        event_list.putEvent(Event("outgoing_imaginary", current_time, 1/MI, current_event.birth_timestamp, current_event.event_ID))
 
     elif current_event.type == "outgoing":
         busy = False
         stats.delay_stats_update(current_event.event_ID, current_event.birth_timestamp, current_time)
+        if not event_list.areServingsOnList(): 
+            event_list.putEvent(Event("serving_imaginary", current_time, current_time, current_time, str(current_event.event_ID)+"_imaginary"))
+
+    elif current_event.type == "outgoing_imaginary":
+        busy = False
+        #stats.delay_stats_update(current_event.event_ID, current_event.birth_timestamp, current_time)
+        if not event_list.areServingsOnList(): 
+            event_list.putEvent(Event("serving_imaginary", current_time, current_time, current_time, str(current_event.event_ID)+"_imaginary"))
 
     penultimate_event_time = current_time
     logging.info("### ITERATION FINISHED ### \n\n")
 
 
-#stats.plot_delay(MI,LAM)      #PLEASE UNCOMMENT ONE OF THESE TO SHOW APPROPRIATE CHART
-stats.plot_sys_empty(MI,LAM)
+stats.plot_delay(MI,LAM)      #PLEASE UNCOMMENT ONE OF THESE TO SHOW APPROPRIATE CHART
+#stats.plot_sys_empty(MI,LAM)
 
 
 
