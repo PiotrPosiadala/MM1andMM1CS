@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import logging
 from numpy import random
 
@@ -7,19 +10,17 @@ class Event():
 
         if event_type is "ingoing":
             self.timestamp = current_time + random.exponential(scale = time_param)
-            self.birth_timestamp = self.timestamp
-            self.event_ID = event_ID
+            self.birth_timestamp = self.timestamp           
         
-        if event_type is "outgoing":
+        elif event_type is "outgoing":
             self.timestamp = current_time + random.exponential(scale = time_param)
             self.birth_timestamp = birth_timestamp
-            self.event_ID = event_ID
 
-        if event_type is "serving":
+        elif event_type is "serving":
             self.timestamp = time_param
             self.birth_timestamp = birth_timestamp
-            self.event_ID = event_ID
-            
+
+        self.event_ID = event_ID
         self.type = event_type
         logging.debug("--EVENT-- Event generated: current_time = {}, event = {}".format(current_time, self))
 
