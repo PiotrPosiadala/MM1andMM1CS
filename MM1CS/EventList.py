@@ -36,10 +36,15 @@ class EventList(list):
              if event.type is "serving": event.timestamp = new_timestamp
     
     def areServingsOnList(self):
-        #return any(event.type == "serving" for event in self)
         serving_on_list = any(event.type == "serving" for event in self)
         logging.debug("--EVENTLIST-- areServingsOnList: {}".format(serving_on_list))
         return serving_on_list
+    
+    def countServings(self):
+        return sum(event.type == "serving" for event in self)
+
+    def countOutgoings(self):
+        return sum(event.type == "outgoing" for event in self)
 
     def printListElements(self):
         for elemnt in self:

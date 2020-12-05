@@ -18,17 +18,19 @@ ro_list = config.ro
 lam_list = config.lam
 mi_list = config.mi
 triggers_to_serve = config.triggers_to_serve
+LAM = lam_list[2]   #PLEASE SET LAMBDA INDEX FROM CONFIG MODULE
+MI = mi_list[2]     #PLEASE SET MI     INDEX FROM CONFIG MODULE
 #CONFIG
 
+#for n in range (1,12):
 #INIT
-LAM = lam_list[0]   #PLEASE SET LAMBDA INDEX FROM CONFIG MODULE
-MI = mi_list[0]     #PLEASE SET MI     INDEX FROM CONFIG MODULE
 event_list = EventList()
 stats = sts.Stats()
 current_time = 0
 penultimate_event_time = 0
 new_event_ID = 1
 busy = False
+imagbusy = False
 
 event_list.putEvent(Event("ingoing", 0, 1/LAM, current_time, new_event_ID))
 new_event_ID += 1
@@ -39,9 +41,12 @@ while new_event_ID < triggers_to_serve:
     logging.info("### NEXT EVENT ITERATION ###")
     logging.info("EventList: {}".format(event_list))
 
+    #stats.serv_and_out_stats_update(current_time, (event_list.countOutgoings() + event_list.countServings()))
     current_event = event_list.getEvent()
     current_time = current_event.timestamp
     #stats.sys_empty_update(penultimate_event_time, current_time, busy)
+    stats.sys_imagbusy_update(penultimate_event_time, current_time, imagbusy)
+    #stats.serving_stats_update(current_time, event_list.countServings())
 
     logging.info("SystemInfo: current_time = {}, busy = {}, , penultimate_event_time = {}".format(current_time, busy, penultimate_event_time))
 
@@ -61,29 +66,36 @@ while new_event_ID < triggers_to_serve:
     elif current_event.type == "serving":       
         busy = True
         event_list.putEvent(Event("outgoing", current_time, 1/MI, current_event.birth_timestamp, current_event.event_ID))
+        #stats.waiting_time_stats_update(current_event.event_ID, current_event.birth_timestamp, current_time)
     
     elif current_event.type == "serving_imaginary":       
         busy = True
+        imagbusy = True
         event_list.putEvent(Event("outgoing_imaginary", current_time, 1/MI, current_event.birth_timestamp, current_event.event_ID))
 
     elif current_event.type == "outgoing":
-        busy = False
-        stats.delay_stats_update(current_event.event_ID, current_event.birth_timestamp, current_time)
-        if not event_list.areServingsOnList(): 
-            event_list.putEvent(Event("serving_imaginary", current_time, current_time, current_time, str(current_event.event_ID)+"_imaginary"))
-
-    elif current_event.type == "outgoing_imaginary":
         busy = False
         #stats.delay_stats_update(current_event.event_ID, current_event.birth_timestamp, current_time)
         if not event_list.areServingsOnList(): 
             event_list.putEvent(Event("serving_imaginary", current_time, current_time, current_time, str(current_event.event_ID)+"_imaginary"))
 
+    elif current_event.type == "outgoing_imaginary":
+        busy = False
+        imagbusy = False
+        #stats.delay_stats_update(current_event.event_ID, current_event.birth_timestamp, current_time)
+        if not event_list.areServingsOnList(): 
+            event_list.putEvent(Event("serving_imaginary", current_time, current_time, current_time, current_event.event_ID))
+
     penultimate_event_time = current_time
     logging.info("### ITERATION FINISHED ### \n\n")
 
 
-stats.plot_delay(MI,LAM)      #PLEASE UNCOMMENT ONE OF THESE TO SHOW APPROPRIATE CHART
-#stats.plot_sys_empty(MI,LAM)
+#stats.plot_delay(MI,LAM)       #PLEASE UNCOMMENT ONE OF THESE TO SHOW APPROPRIATE CHART 
+#stats.plot_sys_empty(MI,LAM)   #note: you'd better not uncomment all of them for one simulation, 
+#stats.plot_buffer(MI,LAM)      #your pc may explode :) 
+#stats.plot_system(MI,LAM)      #please uncomment also methods from stats module (@ code above) you need
+#stats.plot_waiting_time(MI, LAM)
+stats.plot_sys_imagbusy(MI, LAM)
 
 
 
