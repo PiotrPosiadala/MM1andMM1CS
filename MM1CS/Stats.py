@@ -74,12 +74,15 @@ class Stats():
         logging.debug("--STATS-- plot_delay(): avg_delay = {}".format(avg_delay))
         print("--STATS-- plot_delay(): avg_delay = {}".format(avg_delay))
         plt.plot([temp_event_IDs[1], temp_event_IDs[-1] ],[avg_delay, avg_delay],linewidth=1.5, color="limegreen", label="Średnie opóźnienie")
+        #plt.plot([temp_event_IDs[1], temp_event_IDs[-1] ],[avg_delay, avg_delay],linewidth=1.5, color="limegreen", label="t_constant")
 
         RHO = LAM/MI
         theoretical_avg_delay = (( (2-RHO) * RHO) / (LAM * (1-RHO) ))
+        #theoretical_avg_delay = 0.75181
         logging.debug("--STATS-- plot_delay(): theoretical_avg_delay = {}".format(theoretical_avg_delay))
         print("--STATS-- plot_delay(): theoretical_avg_delay = {}".format(theoretical_avg_delay))
         plt.plot([temp_event_IDs[1], temp_event_IDs[-1] ],[theoretical_avg_delay, theoretical_avg_delay], linewidth=1.5, color="red", linestyle = "--", label="Teoretyczne średnie opóźnienie")
+        #plt.plot([temp_event_IDs[1], temp_event_IDs[-1] ],[theoretical_avg_delay, theoretical_avg_delay], linewidth=1.5, color="red", linestyle = "--", label="t_variable")
 
         plt.title("Czas przejścia pakietu przez system dla \u03BB = {:1.1f}, \u03BC = {:1.3f}, \u03C1 = {}.".format(LAM, MI, LAM/MI))
         plt.ylabel("T - Czas przejścia przez system")
@@ -112,13 +115,15 @@ class Stats():
         logging.debug("--STATS-- plot_buffer(): avg_buffer = {}".format(avg_buffer))
         print("--STATS-- plot_buffer(): avg_buffer = {}".format(avg_buffer))
         plt.plot([self.event_occurrence_time2[1], self.event_occurrence_time2[-1] ],[avg_buffer, avg_buffer],linewidth=1.5, color="limegreen", label="Średnia ilość zgłoszeń w kolejce")
+        #plt.plot([self.event_occurrence_time2[1], self.event_occurrence_time2[-1] ],[avg_buffer, avg_buffer],linewidth=1.5, color="limegreen", label="t_const")
 
         RHO = LAM/MI
         theoretical_avg_buffer = ( RHO / (1-RHO) )
+        #theoretical_avg_buffer = 3.00518
         logging.debug("--STATS-- plot_buffer(): theoretical_avg_buffer = {}".format(theoretical_avg_buffer))
         print("--STATS-- plot_buffer(): theoretical_avg_buffer = {}".format(theoretical_avg_buffer))
         plt.plot([self.event_occurrence_time2[1], self.event_occurrence_time2[-1] ],[theoretical_avg_buffer, theoretical_avg_buffer], linewidth=1.5, color="red", linestyle = "--", label="Teoretyczna średnia ilość zgłoszeń w kolejce")
-
+        #plt.plot([self.event_occurrence_time2[1], self.event_occurrence_time2[-1] ],[theoretical_avg_buffer, theoretical_avg_buffer], linewidth=1.5, color="red", linestyle = "--", label="t_variable")
 
         plt.title("Liczba klientów w buforze dla \u03BB = {:1.1f}, \u03BC = {:1.3f}, \u03C1 = {}.".format(LAM, MI, LAM/MI))
         plt.ylabel("Q - liczba klientów w buforze")
@@ -139,13 +144,15 @@ class Stats():
         logging.debug("--STATS-- plot_system(): avg_system = {}".format(avg_system))
         print("--STATS-- plot_system(): avg_system = {}".format(avg_system))
         plt.plot([self.event_occurrence_time3[1], self.event_occurrence_time3[-1] ],[avg_system, avg_system],linewidth=1.5, color="limegreen", label="Średnia ilość zgłoszeń w systemie")
+        #plt.plot([self.event_occurrence_time3[1], self.event_occurrence_time3[-1] ],[avg_system, avg_system],linewidth=1.5, color="limegreen", label="t_const")
 
         RHO = LAM/MI
         theoretical_avg_system = ( (2 - RHO) * RHO / (1-RHO) )
+        #theoretical_avg_system = 0.58
         logging.debug("--STATS-- plot_system(): theoretical_avg_system = {}".format(theoretical_avg_system))
         print("--STATS-- plot_system(): theoretical_avg_system = {}".format(theoretical_avg_system))
         plt.plot([self.event_occurrence_time3[1], self.event_occurrence_time3[-1] ],[theoretical_avg_system, theoretical_avg_system], linewidth=1.5, color="red", linestyle = "--", label="Teoretyczna średnia ilość zgłoszeń w systemie")
-
+        #plt.plot([self.event_occurrence_time3[1], self.event_occurrence_time3[-1] ],[theoretical_avg_system, theoretical_avg_system], linewidth=1.5, color="red", linestyle = "--", label="t_variable")
 
         plt.title("Liczba klientów w systemie dla \u03BB = {:1.1f}, \u03BC = {:1.3f}, \u03C1 = {}.".format(LAM, MI, LAM/MI))
         plt.ylabel("N - liczba klientów w systemie")
@@ -164,12 +171,15 @@ class Stats():
         logging.debug("--STATS-- plot_waiting_time(): avg_waiting_time = {}".format(avg_waiting_time))
         print("--STATS-- plot_waiting_time(): avg_waiting_time = {}".format(avg_waiting_time))
         plt.plot([temp_event_IDs[1], temp_event_IDs[-1] ],[avg_waiting_time, avg_waiting_time],linewidth=1.5, color="limegreen", label="Średni czas oczekiwania na obsługę")
+        #plt.plot([temp_event_IDs[1], temp_event_IDs[-1] ],[avg_waiting_time, avg_waiting_time],linewidth=1.5, color="limegreen", label="t_const")
 
         RHO = LAM/MI
         theoretical_avg_waiting_time = ((RHO) / (LAM * (1-RHO) ))
+        #theoretical_avg_waiting_time = 1.503
         logging.debug("--STATS-- plot_waiting_time(): theoretical_avg_waiting_time = {}".format(theoretical_avg_waiting_time))
         print("--STATS-- plot_waiting_time(): theoretical_avg_waiting_time = {}".format(theoretical_avg_waiting_time))
         plt.plot([temp_event_IDs[1], temp_event_IDs[-1] ],[theoretical_avg_waiting_time, theoretical_avg_waiting_time], linewidth=1.5, color="red", linestyle = "--", label="Teoretyczny czas oczekiwania na obsługę ")
+        #plt.plot([temp_event_IDs[1], temp_event_IDs[-1] ],[theoretical_avg_waiting_time, theoretical_avg_waiting_time], linewidth=1.5, color="red", linestyle = "--", label="t_var")
 
         plt.title("Czas oczekiwania na obsługę dla \u03BB = {:1.1f}, \u03BC = {:1.3f}, \u03C1 = {}.".format(LAM, MI, LAM/MI))
         plt.ylabel("T - Czas oczekiwania na obsługę")

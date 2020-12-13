@@ -18,6 +18,9 @@ class Event():
         
         elif event_type is "outgoing_imaginary":
             self.timestamp = current_time + random.exponential(scale = time_param)
+            #self.timestamp = current_time + 0.125    #staly czas obslugi klienta wyimaginowanego
+            #self.timestamp = current_time + 0.25    #staly czas obslugi klienta wyimaginowanego
+            #self.timestamp = current_time + 0.375    #staly czas obslugi klienta wyimaginowanego
             self.birth_timestamp = birth_timestamp
 
         elif event_type is "serving":
