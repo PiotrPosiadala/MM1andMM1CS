@@ -22,7 +22,6 @@ class Stats():
         self.sys_empty_ratio = [0]
         self.sys_imagbusy_ratio = [0]
         self.serving_events_amount = [0]
-        #self.avg_buffer_temp = 0
         self.serv_and_out_events_amount = []
 
     def delay_stats_update(self, event_ID, event_birthtime, event_deathtime):
@@ -57,8 +56,8 @@ class Stats():
     def sys_imagbusy_update(self, penultimate_event_time, current_time, imagbusy):
         time_diff = current_time - penultimate_event_time
         prev_imagbusy_time = self.sys_imagbusy_time[-1]
-        if not imagbusy: self.sys_imagbusy_time.append((prev_imagbusy_time+time_diff))
-        elif imagbusy: self.sys_imagbusy_time.append(prev_imagbusy_time)
+        if imagbusy: self.sys_imagbusy_time.append((prev_imagbusy_time+time_diff))
+        elif not imagbusy: self.sys_imagbusy_time.append(prev_imagbusy_time)
         self.event_occurrence_time4.append(current_time)
         self.sys_imagbusy_ratio.append(self.sys_imagbusy_time[-1]/current_time)
         logging.debug("--STATS-- sys_imagbusy_update(): event_occurrence_time[-1] = {}; sys_imagbusy_time[-1] = {} ; sys_imagbusy_ratio[-1] = {}".format(self.event_occurrence_time4[-1], self.sys_imagbusy_time[-1], self.sys_imagbusy_ratio[-1]))
@@ -190,9 +189,12 @@ class Stats():
     def plot_sys_imagbusy(self, MI, LAM):
         plt.plot(self.event_occurrence_time4, self.sys_imagbusy_ratio, linewidth=1, label = "B_imag(t)")
 
-        theoretical_avg = (LAM/MI)
-        print("--STATS-- plot_waiting_time(): theoretical_avg = {}".format(theoretical_avg))
-        plt.plot([self.event_occurrence_time4[0], self.event_occurrence_time4[-1]], [theoretical_avg,theoretical_avg], linewidth=1.2, label = "\u03C1" )
+        rho = (LAM/MI)
+        one_minus_rho = 1 - rho
+
+        print("--STATS-- plot_waiting_time(): rho = {}".format(rho))
+        plt.plot([self.event_occurrence_time4[0], self.event_occurrence_time4[-1]], [rho,rho], linewidth=1.2, label = "\u03C1" )
+        plt.plot([self.event_occurrence_time4[0], self.event_occurrence_time4[-1]], [one_minus_rho,one_minus_rho], linewidth=1.2, label = "1 - \u03C1" )
     
         plt.title("Wartość stosunku zajętości klientem wymaginowanym B_imag(t) \ndo pozostałych stanów systemu dla  \u03BB = {:1.1f}, \u03BC = {:1.1f}, \u03C1 = {}.".format(LAM, MI, LAM/MI))
         plt.xlabel("t")
